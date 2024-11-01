@@ -509,7 +509,6 @@
       </div>
       <!-- Best Seller End -->
 
-      <!-- End -->
       <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
         <h5
           class="section-title ff-secondary text-center text-primary fw-normal"
@@ -518,105 +517,85 @@
         </h5>
         <h1 class="mb-5">Book A Table Online</h1>
       </div>
-      <!-- Reservation Start -->
-      <div class="container-xxl py-5 px-0 wow fadeInUp" data-wow-delay="0.1s">
-        <div class="row g-1">
-          <!-- Giảm khoảng cách giữa hai cột -->
-          <div class="col-md-6">
-            <div class="image-container">
-              <img
-                src="img/a.jpg"
-                alt="Your Image Description"
-                width="700"
-                height="300"
-                class="img-fluid"
-              />
-            </div>
+<!-- Reservation Start -->
+<div class="container-xxl py-5 px-0 wow fadeInUp" data-wow-delay="0.1s">
+  <div class="row g-1">
+      <div class="col-md-6">
+          <div class="image-container">
+              <img src="img/a.jpg" alt="Your Image Description" width="700" height="300" class="img-fluid" />
           </div>
-          <div class="col-md-6 bg-dark d-flex align-items-center">
-            <div class="p-5 wow fadeInUp" data-wow-delay="0.2s">
-              <h5
-                class="section-title ff-secondary text-start text-primary fw-normal"
-              >
-                Reservation
-              </h5>
-              <h1 class="text-white mb-4">Book A Table Online</h1>
-              <form>
-                <div class="row g-3">
-                  <div class="col-md-6">
-                    <div class="form-floating">
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="name"
-                        placeholder="Your Name"
-                      />
-                      <label for="name">Your Name</label>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-floating">
-                      <input
-                        type="email"
-                        class="form-control"
-                        id="email"
-                        placeholder="Your Email"
-                      />
-                      <label for="email">Your Email</label>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div
-                      class="form-floating date"
-                      id="date3"
-                      data-target-input="nearest"
-                    >
-                      <input
-                        type="text"
-                        class="form-control datetimepicker-input"
-                        id="datetime"
-                        placeholder="Date & Time"
-                        data-target="#date3"
-                        data-toggle="datetimepicker"
-                      />
-                      <label for="datetime">Date & Time</label>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-floating">
-                      <select class="form-select" id="select1">
-                        <option value="1">Hải Yến</option>
-                        <option value="2">Minh Thuận</option>
-                        <option value="3">Hồng Phúc</option>
-                        <option value="3">Bảo Ngọc</option>
-                      </select>
-                      <label for="select1">No Of People</label>
-                    </div>
-                  </div>
-                  <div class="col-12">
-                    <div class="form-floating">
-                      <textarea
-                        class="form-control"
-                        placeholder="Special Request"
-                        id="message"
-                        style="height: 100px"
-                      ></textarea>
-                      <label for="message">Special Request</label>
-                    </div>
-                  </div>
-                  <div class="col-12">
-                    <button class="btn btn-primary w-100 py-3" type="submit">
-                      Book Now
-                    </button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
       </div>
+      <div class="col-md-6 bg-dark d-flex align-items-center">
+          <div class="p-5 wow fadeInUp" data-wow-delay="0.2s">
+              <h5 class="section-title ff-secondary text-start text-primary fw-normal">Reservation</h5>
+              <h1 class="text-white mb-4">Book A Table Online</h1>
+              <form id="reservation-form">
+                  <div class="row g-3">
+                      <div class="col-md-6">
+                          <div class="form-floating">
+                              <input type="text" class="form-control" id="name" placeholder="Your Name" required />
+                              <label for="name">Your Name</label>
+                          </div>
+                      </div>
+                      <div class="col-md-6">
+                          <div class="form-floating">
+                              <input type="email" class="form-control" id="email" placeholder="Your Email" required />
+                              <label for="email">Your Email</label>
+                          </div>
+                      </div>
+                      <div class="col-md-6">
+                          <div class="form-floating date" id="date3" data-target-input="nearest">
+                              <input type="text" class="form-control datetimepicker-input" id="datetime" placeholder="Date & Time" data-target="#date3" data-toggle="datetimepicker" required />
+                              <label for="datetime">Date & Time</label>
+                          </div>
+                      </div>
+                      <!-- Phone Number Input -->
+                      <div class="col-md-6">
+                          <div class="form-floating">
+                              <input type="tel" class="form-control" id="phone" placeholder="Your Phone Number" required />
+                              <label for="phone">Phone Number</label>
+                          </div>
+                      </div>
+                      <div class="col-md-6">
+                          <div class="form-floating">
+                              <select class="form-select" id="select1" required>
+                                  <option value="1">Hải Yến</option>
+                                  <option value="2">Minh Thuận</option>
+                                  <option value="3">Hồng Phúc</option>
+                                  <option value="3">Bảo Ngọc</option>
+                              </select>
+                              <label for="select1">No Of People</label>
+                          </div>
+                      </div>
+                      <!-- Table Type Selection -->
+                      <div class="col-md-6">
+                          <div class="form-floating">
+                              <select class="form-select" id="tableType" required>
+                                  <option value="standard">Standard Table</option>
+                                  <option value="vip">VIP Table</option>
+                                  <option value="outdoor">Outdoor Table</option>
+                              </select>
+                              <label for="tableType">Table Type</label>
+                          </div>
+                      </div>
+                      <div class="col-12">
+                          <div class="form-floating">
+                              <textarea class="form-control" placeholder="Special Request" id="message" style="height: 100px"></textarea>
+                              <label for="message">Special Request</label>
+                          </div>
+                      </div>
+                      <div class="col-12">
+                          <button class="btn btn-primary w-100 py-3" type="submit">Book Now</button>
+                      </div>
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>
+<!-- Reservation End -->
 
-      <!-- Reservation Start -->
+
 
       <!-- Team Start -->
       <div class="container-xxl pt-5 pb-3">
@@ -972,7 +951,25 @@
     <script src="lib/tempusdominus/js/moment.min.js"></script>
     <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
     <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
-
+    <script>
+      document.getElementById('reservation-form').onsubmit = function(e) {
+          e.preventDefault(); // Ngăn chặn hành động gửi mặc định
+  
+          // Lấy giá trị từ các trường
+          const name = document.getElementById('name').value;
+          const email = document.getElementById('email').value;
+          const datetime = document.getElementById('datetime').value;
+          const phone = document.getElementById('phone').value; // Thêm số điện thoại
+          const noOfPeople = document.getElementById('select1').value;
+          const tableType = document.getElementById('tableType').value; // Thêm loại bàn
+          const message = document.getElementById('message').value;
+  
+          // Chuyển hướng đến trang xác nhận với thông tin
+          window.location.href = `confirmationtable.html?name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&datetime=${encodeURIComponent(datetime)}&phone=${encodeURIComponent(phone)}&noOfPeople=${encodeURIComponent(noOfPeople)}&tableType=${encodeURIComponent(tableType)}&message=${encodeURIComponent(message)}`;
+      }
+  </script>
+  
+  
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
   </body>

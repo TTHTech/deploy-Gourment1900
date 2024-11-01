@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xác Nhận Đặt Bàn</title>
+    <link href="logo/logo-bor.png" rel="icon" />
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .qr-code {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .qr-code img {
+            width: 150px;
+            height: 150px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Placeholder cho Header -->
+    <div id="header-placeholder" style="margin-bottom: 140px;"></div>
+
+    <div class="container my-5">
+        <h2>Xác Nhận Đặt Bàn</h2>
+        
+        <div id="reservation-info"></div>
+        
+        <!-- QR Code Section -->
+        <div class="qr-code">
+            <h5>Quét mã QR để thanh toán</h5>
+            <img src="https://th.bing.com/th/id/OIP.V_mHor9anWk1oXTi6rNoJAHaHa?w=170&h=180&c=7&r=0&o=5&dpr=1.6&pid=1.7" alt="QR Code">
+        </div>
+
+        <button class="btn btn-primary mt-4" onclick="confirmReservation()">Xác Nhận Đặt Bàn</button>
+    </div>
+
+    <!-- Placeholder cho Footer -->
+    <div id="footer-placeholder"></div>
+
+    <!-- EmailJS Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script>
+        (function(){
+            emailjs.init("shwX2lObsufT0coUX"); // Thay "YOUR_PUBLIC_KEY_HERE" bằng Public Key từ EmailJS
+        })();
+    </script>
+
+    <!-- JavaScript để tải Header và Footer từ các tệp riêng -->
+    <script>
+        fetch("navbar.html")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("header-placeholder").innerHTML = data;
+            })
+            .catch(error => console.error("Lỗi khi tải header:", error));
+
+        fetch("footer.html")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("footer-placeholder").innerHTML = data;
+            })
+            .catch(error => console.error("Lỗi khi tải footer:", error));
+    </script>
+
+    <!-- JavaScript để hiển thị thông tin đặt bàn từ URL và gửi email -->
+    <script>
+        function getReservationInfo() {
+            const params = new URLSearchParams(window.location.search);
+            const name = params.get("name");
+            const email = params.get("email");
+            const phone = params.get("phone"); 
+            const datetime = params.get("datetime");
+            const noOfPeople = params.get("noOfPeople");
+            const tableType = params.get("tableType"); 
+            const message = params.get("message") || "Không có yêu cầu đặc biệt.";
+
+            const infoHtml = `
+                <h4>Thông tin đặt bàn của bạn:</h4>
+                <p><strong>Tên:</strong> ${name}</p>
+                <p><strong>Email:</strong> ${email}</p>
+                <p><strong>Số điện thoại:</strong> ${phone}</p>
+                <p><strong>Thời gian:</strong> ${datetime}</p>
+                <p><strong>Số lượng:</strong> ${noOfPeople}</p>
+                <p><strong>Loại bàn:</strong> ${tableType}</p>
+                <p><strong>Yêu cầu đặc biệt:</strong> ${message}</p>
+            `;
+
+            document.getElementById("reservation-info").innerHTML = infoHtml;
+        }
+
+        function confirmReservation() {
+            const params = new URLSearchParams(window.location.search);
+            const reservationDetails = {
+                customer_name: params.get("name"),
+                customer_email: params.get("email"),
+                customer_phone: params.get("phone"),
+                reservation_datetime: params.get("datetime"),
+                no_of_people: params.get("noOfPeople"),
+                table_type: params.get("tableType"),
+                special_requests: params.get("message") || "Không có yêu cầu đặc biệt."
+            };
+
+            // Gửi email bằng EmailJS
+            emailjs.send("service_fdn68ld", "template_59p390n", reservationDetails)
+                .then(function(response) {
+                    alert("Đặt bàn của bạn đã được xác nhận và email đã được gửi!");
+                    window.location.href = "index.html";
+                }, function(error) {
+                    alert("Lỗi khi gửi email: " + JSON.stringify(error));
+                });
+        }
+
+        // Gọi hàm khi trang được tải
+        window.onload = getReservationInfo;
+    </script>
+
+    <!-- Thư viện JavaScript thêm (Bootstrap và jQuery) -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
