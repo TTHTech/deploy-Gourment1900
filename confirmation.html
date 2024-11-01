@@ -38,6 +38,9 @@
     </style>
 </head>
 <body>
+    <!-- Placeholder for Header -->
+    <div id="header-placeholder" style="margin-bottom: 130px;"></div>
+
     <div class="container my-5">
         <h2>Xác Nhận Thanh Toán</h2>
         
@@ -54,7 +57,8 @@
         
         <div class="total-amount mt-3" id="total-amount">Tổng tiền: $0</div>
 
-        <div class="qr-code mt-5">
+        <!-- QR Code Section -->
+        <div class="qr-code mt-5" id="qr-code-section">
             <h5>Quét mã QR để thanh toán</h5>
             <img src="https://th.bing.com/th/id/OIP.V_mHor9anWk1oXTi6rNoJAHaHa?w=170&h=180&c=7&r=0&o=5&dpr=1.6&pid=1.7" alt="QR Code">
         </div>
@@ -62,7 +66,27 @@
         <button class="btn btn-primary mt-4" onclick="completeOrder()">Hoàn Tất Đơn Hàng</button>
     </div>
 
-    <!-- JavaScript -->
+    <!-- Placeholder for Footer -->
+    <div id="footer-placeholder"></div>
+
+    <!-- JavaScript to load header and footer -->
+    <script>
+        fetch("navbar.html")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("header-placeholder").innerHTML = data;
+            })
+            .catch(error => console.error("Error loading header:", error));
+
+        fetch("footer.html")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("footer-placeholder").innerHTML = data;
+            })
+            .catch(error => console.error("Error loading footer:", error));
+    </script>
+
+    <!-- JavaScript for loading confirmation details -->
     <script>
         function loadConfirmation() {
             const cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -75,7 +99,15 @@
             document.getElementById("customer-name").textContent = customerName;
             document.getElementById("customer-phone").textContent = customerPhone;
             document.getElementById("customer-address").textContent = customerAddress;
-            document.getElementById("payment-method").textContent = paymentMethod === "momo" ? "MoMo" : "Ngân Hàng";
+            document.getElementById("payment-method").textContent = 
+                paymentMethod === "momo" ? "MoMo" : paymentMethod === "bank" ? "Ngân Hàng" : "Thanh Toán Tiền Mặt";
+
+            const qrCodeSection = document.getElementById("qr-code-section");
+            if (paymentMethod === "cash") {
+                qrCodeSection.style.display = "none"; // Hide QR code if "Thanh Toán Tiền Mặt" is selected
+            } else {
+                qrCodeSection.style.display = "block"; // Show QR code for "Ngân Hàng" or "MoMo"
+            }
 
             const checkoutItemsContainer = document.getElementById("checkout-items");
             cart.forEach(item => {
