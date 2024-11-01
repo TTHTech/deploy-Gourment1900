@@ -478,7 +478,7 @@
     border-right: none;
 }
 .footer {
-    width: 1535px; /* Đảm bảo footer chiếm toàn bộ chiều ngang */
+    width: 1320px; /* Đảm bảo footer chiếm toàn bộ chiều ngang */
     left: 0; /* Đảm bảo footer nằm sát bên trái */
     right: 0; /* Đảm bảo footer nằm sát bên phải */
     bottom: 0; /* Đẩy footer xuống dưới cùng của trang */
