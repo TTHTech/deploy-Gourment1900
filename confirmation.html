@@ -48,6 +48,7 @@
         <div id="order-info">
             <h4>Thông Tin Đơn Hàng</h4>
             <p><strong>Tên:</strong> <span id="customer-name"></span></p>
+            <p><strong>Email:</strong> <span id="customer-email"></span></p>
             <p><strong>Số điện thoại:</strong> <span id="customer-phone"></span></p>
             <p><strong>Địa chỉ:</strong> <span id="customer-address"></span></p>
             <p><strong>Phương thức thanh toán:</strong> <span id="payment-method"></span></p>
@@ -70,6 +71,14 @@
     <!-- Placeholder for Footer -->
     <div id="footer-placeholder"></div>
 
+    <!-- EmailJS Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script>
+        (function(){
+            emailjs.init("3RWROsn1uQCWaoEda"); // Thay bằng Public Key từ tài khoản EmailJS của bạn
+        })();
+    </script>
+
     <!-- JavaScript to load header and footer -->
     <script>
         fetch("navbar.html")
@@ -87,28 +96,26 @@
             .catch(error => console.error("Error loading footer:", error));
     </script>
 
-    <!-- JavaScript for loading confirmation details -->
+    <!-- JavaScript for loading confirmation details and sending email -->
     <script>
         function loadConfirmation() {
             const cart = JSON.parse(localStorage.getItem("cart")) || [];
             const customerName = localStorage.getItem("customerName") || "";
+            const customerEmail = localStorage.getItem("customerEmail") || "";
             const customerPhone = localStorage.getItem("customerPhone") || "";
             const customerAddress = localStorage.getItem("customerAddress") || "";
             const paymentMethod = localStorage.getItem("paymentMethod") || "Unknown";
             const totalAmount = localStorage.getItem("totalAmount") || "0.00";
 
             document.getElementById("customer-name").textContent = customerName;
+            document.getElementById("customer-email").textContent = customerEmail;
             document.getElementById("customer-phone").textContent = customerPhone;
             document.getElementById("customer-address").textContent = customerAddress;
             document.getElementById("payment-method").textContent = 
                 paymentMethod === "momo" ? "MoMo" : paymentMethod === "bank" ? "Ngân Hàng" : "Thanh Toán Tiền Mặt";
 
             const qrCodeSection = document.getElementById("qr-code-section");
-            if (paymentMethod === "cash") {
-                qrCodeSection.style.display = "none"; // Hide QR code if "Thanh Toán Tiền Mặt" is selected
-            } else {
-                qrCodeSection.style.display = "block"; // Show QR code for "Ngân Hàng" or "MoMo"
-            }
+            qrCodeSection.style.display = paymentMethod === "cash" ? "none" : "block";
 
             const checkoutItemsContainer = document.getElementById("checkout-items");
             cart.forEach(item => {
@@ -129,9 +136,29 @@
         }
 
         function completeOrder() {
-            alert("Đơn hàng của bạn đã được xác nhận! Cảm ơn bạn đã mua hàng.");
-            localStorage.clear();  // Clear all data after order confirmation
-            window.location.href = "index.html";  // Redirect to homepage
+            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+            const itemsList = cart.map(item => `- ${item.name} (x${item.quantity}) - Giá: $${item.price}`).join("\n");
+
+            const orderDetails = {
+                customer_name: localStorage.getItem("customerName"),
+                customer_email: localStorage.getItem("customerEmail"),
+                customer_phone: localStorage.getItem("customerPhone"),
+                customer_address: localStorage.getItem("customerAddress"),
+                payment_method: localStorage.getItem("paymentMethod") === "momo" ? "MoMo" : 
+                                localStorage.getItem("paymentMethod") === "bank" ? "Ngân Hàng" : "Thanh Toán Tiền Mặt",
+                total_amount: localStorage.getItem("totalAmount"),
+                items_list: itemsList
+            };
+
+            // Gửi email bằng EmailJS
+            emailjs.send("service_i9ngvtr", "template_a0v6yxm", orderDetails) // Thay "YOUR_TEMPLATE_ID" với Template ID của bạn
+                .then(function(response) {
+                    alert("Đơn hàng của bạn đã được xác nhận và email đã được gửi!");
+                    localStorage.clear();
+                    window.location.href = "index.html";
+                }, function(error) {
+                    alert("Lỗi khi gửi email: " + JSON.stringify(error));
+                });
         }
 
         window.onload = loadConfirmation;
