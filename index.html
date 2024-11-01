@@ -556,15 +556,11 @@
                               <label for="phone">Phone Number</label>
                           </div>
                       </div>
+                      <!-- Number of People Input -->
                       <div class="col-md-6">
                           <div class="form-floating">
-                              <select class="form-select" id="select1" required>
-                                  <option value="1">Hải Yến</option>
-                                  <option value="2">Minh Thuận</option>
-                                  <option value="3">Hồng Phúc</option>
-                                  <option value="3">Bảo Ngọc</option>
-                              </select>
-                              <label for="select1">No Of People</label>
+                              <input type="number" class="form-control" id="noOfPeople" placeholder="Number of People" min="1" required />
+                              <label for="noOfPeople">Number of People</label>
                           </div>
                       </div>
                       <!-- Table Type Selection -->
@@ -594,6 +590,7 @@
   </div>
 </div>
 <!-- Reservation End -->
+
 
 
 
@@ -960,7 +957,7 @@
           const email = document.getElementById('email').value;
           const datetime = document.getElementById('datetime').value;
           const phone = document.getElementById('phone').value; // Thêm số điện thoại
-          const noOfPeople = document.getElementById('select1').value;
+          const noOfPeople = document.getElementById('noOfPeople').value; // Đổi sang noOfPeople
           const tableType = document.getElementById('tableType').value; // Thêm loại bàn
           const message = document.getElementById('message').value;
   
@@ -968,6 +965,7 @@
           window.location.href = `confirmationtable.html?name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&datetime=${encodeURIComponent(datetime)}&phone=${encodeURIComponent(phone)}&noOfPeople=${encodeURIComponent(noOfPeople)}&tableType=${encodeURIComponent(tableType)}&message=${encodeURIComponent(message)}`;
       }
   </script>
+  
   
   
     <!-- Template Javascript -->
