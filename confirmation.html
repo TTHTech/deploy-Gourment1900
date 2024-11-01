@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xác Nhận Thanh Toán</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .cart-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        .cart-item img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .qr-code {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .qr-code img {
+            width: 150px;
+            height: 150px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container my-5">
+        <h2>Xác Nhận Thanh Toán</h2>
+        
+        <div id="order-info">
+            <h4>Thông Tin Đơn Hàng</h4>
+            <p><strong>Tên:</strong> <span id="customer-name"></span></p>
+            <p><strong>Số điện thoại:</strong> <span id="customer-phone"></span></p>
+            <p><strong>Địa chỉ:</strong> <span id="customer-address"></span></p>
+            <p><strong>Phương thức thanh toán:</strong> <span id="payment-method"></span></p>
+        </div>
+
+        <h4>Các Món Đã Đặt</h4>
+        <div id="checkout-items"></div>
+        
+        <div class="total-amount mt-3" id="total-amount">Tổng tiền: $0</div>
+
+        <div class="qr-code mt-5">
+            <h5>Quét mã QR để thanh toán</h5>
+            <img src="https://th.bing.com/th/id/OIP.V_mHor9anWk1oXTi6rNoJAHaHa?w=170&h=180&c=7&r=0&o=5&dpr=1.6&pid=1.7" alt="QR Code">
+        </div>
+        
+        <button class="btn btn-primary mt-4" onclick="completeOrder()">Hoàn Tất Đơn Hàng</button>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        function loadConfirmation() {
+            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+            const customerName = localStorage.getItem("customerName") || "";
+            const customerPhone = localStorage.getItem("customerPhone") || "";
+            const customerAddress = localStorage.getItem("customerAddress") || "";
+            const paymentMethod = localStorage.getItem("paymentMethod") || "Unknown";
+            const totalAmount = localStorage.getItem("totalAmount") || "0.00";
+
+            document.getElementById("customer-name").textContent = customerName;
+            document.getElementById("customer-phone").textContent = customerPhone;
+            document.getElementById("customer-address").textContent = customerAddress;
+            document.getElementById("payment-method").textContent = paymentMethod === "momo" ? "MoMo" : "Ngân Hàng";
+
+            const checkoutItemsContainer = document.getElementById("checkout-items");
+            cart.forEach(item => {
+                const checkoutItem = document.createElement("div");
+                checkoutItem.className = "cart-item";
+                checkoutItem.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}">
+                    <div>
+                        <h5>${item.name}</h5>
+                        <p>Giá: $${item.price}</p>
+                        <p>Số lượng: ${item.quantity}</p>
+                    </div>
+                `;
+                checkoutItemsContainer.appendChild(checkoutItem);
+            });
+
+            document.getElementById("total-amount").textContent = `Tổng tiền: $${totalAmount}`;
+        }
+
+        function completeOrder() {
+            alert("Đơn hàng của bạn đã được xác nhận! Cảm ơn bạn đã mua hàng.");
+            localStorage.clear();  // Clear all data after order confirmation
+            window.location.href = "index.html";  // Redirect to homepage
+        }
+
+        window.onload = loadConfirmation;
+    </script>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

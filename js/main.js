@@ -114,6 +114,11 @@
             }
         }
     });
+       // View Item Detail Function - Navigate to menu-item.html with item details
+       window.viewItemDetail = function(name, price, description, image) {
+        const url = `menu-item.html?name=${encodeURIComponent(name)}&price=${price}&description=${encodeURIComponent(description)}&image=${encodeURIComponent(image)}`;
+        window.location.href = url;
+    };
     
 })(jQuery);
 

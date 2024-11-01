@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chi Tiết Món Ăn</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/menu-item.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet" />
+    <style>
+        body, html {
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+        }
+
+        .container {
+            flex: 1;
+            max-width: 900px;
+            width: 100%;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+        }
+
+        #footer-placeholder {
+            background-color: #343a40;
+            color: #fff;
+            padding: 20px 0;
+        }
+
+        #footer-placeholder .container {
+            max-width: 100%;
+            padding: 0 20px;
+        }
+
+        .navbar {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Placeholder cho Header -->
+    <div id="header-placeholder" style="margin-bottom: 90px;"></div>
+
+    <!-- Nội dung chính của trang -->
+    <div class="container my-5">
+        <div class="item-detail">
+            <div class="item-image mb-3">
+                <img id="item-image" src="" alt="Món ăn" class="img-fluid rounded" />
+            </div>
+            <div class="item-info">
+                <h1 id="item-name" class="mb-3"></h1>
+                <h3>Giá: <span id="item-price"></span></h3>
+                <p id="item-description" class="mb-4"></p>
+                <button class="btn btn-primary" onclick="addToCart()">Add to Cart</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Placeholder cho Footer -->
+    <div id="footer-placeholder"></div>
+
+    <!-- JavaScript để tải Header và Footer từ các tệp riêng biệt -->
+    <script>
+        fetch("navbar.html")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("header-placeholder").innerHTML = data;
+            })
+            .catch(error => console.error("Lỗi khi tải header:", error));
+
+        fetch("footer.html")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("footer-placeholder").innerHTML = data;
+            })
+            .catch(error => console.error("Lỗi khi tải footer:", error));
+    </script>
+
+    <!-- JavaScript để lấy chi tiết món ăn từ tham số URL và thêm vào giỏ hàng -->
+    <script>
+        window.onload = function () {
+            const params = new URLSearchParams(window.location.search);
+            const name = params.get("name") || "Unknown Item";
+            const price = params.get("price") || "N/A";
+            const description = params.get("description") || "No description available.";
+            const image = params.get("image") || "placeholder.jpg";
+
+            document.title = name;
+            document.getElementById("item-name").textContent = name;
+            document.getElementById("item-price").textContent = `$${price}`;
+            document.getElementById("item-description").textContent = description;
+            document.getElementById("item-image").src = image;
+        };
+
+        function addToCart() {
+            const params = new URLSearchParams(window.location.search);
+            const item = {
+                name: params.get("name") || "Unknown Item",
+                price: params.get("price") || "N/A",
+                description: params.get("description") || "No description available.",
+                image: params.get("image") || "placeholder.jpg",
+                quantity: 1
+            };
+
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+            const existingItem = cart.find(cartItem => cartItem.name === item.name);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push(item);
+            }
+
+            localStorage.setItem("cart", JSON.stringify(cart));
+            alert(`${item.name} đã được thêm vào giỏ hàng.`);
+        }
+    </script>
+
+    <!-- Thư viện JavaScript thêm (Bootstrap và jQuery) -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
