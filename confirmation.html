@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xác Nhận Thanh Toán</title>
+    <title>Payment Confirmation</title>
     <link href="logo/logo-bor.png" rel="icon" />
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <style>
@@ -43,29 +43,29 @@
     <div id="header-placeholder" style="margin-bottom: 130px;"></div>
 
     <div class="container my-5">
-        <h2>Xác Nhận Thanh Toán</h2>
+        <h2>Payment Confirmation</h2>
         
         <div id="order-info">
-            <h4>Thông Tin Đơn Hàng</h4>
-            <p><strong>Tên:</strong> <span id="customer-name"></span></p>
+            <h4>Order Information</h4>
+            <p><strong>Name:</strong> <span id="customer-name"></span></p>
             <p><strong>Email:</strong> <span id="customer-email"></span></p>
-            <p><strong>Số điện thoại:</strong> <span id="customer-phone"></span></p>
-            <p><strong>Địa chỉ:</strong> <span id="customer-address"></span></p>
-            <p><strong>Phương thức thanh toán:</strong> <span id="payment-method"></span></p>
+            <p><strong>Phone Number:</strong> <span id="customer-phone"></span></p>
+            <p><strong>Address:</strong> <span id="customer-address"></span></p>
+            <p><strong>Payment Method:</strong> <span id="payment-method"></span></p>
         </div>
 
-        <h4>Các Món Đã Đặt</h4>
+        <h4>Ordered Items</h4>
         <div id="checkout-items"></div>
         
-        <div class="total-amount mt-3" id="total-amount">Tổng tiền: $0</div>
+        <div class="total-amount mt-3" id="total-amount">Total: $0</div>
 
         <!-- QR Code Section -->
         <div class="qr-code mt-5" id="qr-code-section">
-            <h5>Quét mã QR để thanh toán</h5>
+            <h5>Scan the QR code to pay</h5>
             <img src="https://th.bing.com/th/id/OIP.V_mHor9anWk1oXTi6rNoJAHaHa?w=170&h=180&c=7&r=0&o=5&dpr=1.6&pid=1.7" alt="QR Code">
         </div>
         
-        <button class="btn btn-primary mt-4" onclick="completeOrder()">Hoàn Tất Đơn Hàng</button>
+        <button class="btn btn-primary mt-4" onclick="completeOrder()">Complete Order</button>
     </div>
 
     <!-- Placeholder for Footer -->
@@ -75,7 +75,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script>
         (function(){
-            emailjs.init("shwX2lObsufT0coUX"); // Thay bằng Public Key từ tài khoản EmailJS của bạn
+            emailjs.init("shwX2lObsufT0coUX"); // Replace with your EmailJS Public Key
         })();
     </script>
 
@@ -112,7 +112,7 @@
             document.getElementById("customer-phone").textContent = customerPhone;
             document.getElementById("customer-address").textContent = customerAddress;
             document.getElementById("payment-method").textContent = 
-                paymentMethod === "momo" ? "MoMo" : paymentMethod === "bank" ? "Ngân Hàng" : "Thanh Toán Tiền Mặt";
+                paymentMethod === "momo" ? "MoMo" : paymentMethod === "bank" ? "Bank Transfer" : "Cash Payment";
 
             const qrCodeSection = document.getElementById("qr-code-section");
             qrCodeSection.style.display = paymentMethod === "cash" ? "none" : "block";
@@ -125,19 +125,19 @@
                     <img src="${item.image}" alt="${item.name}">
                     <div>
                         <h5>${item.name}</h5>
-                        <p>Giá: $${item.price}</p>
-                        <p>Số lượng: ${item.quantity}</p>
+                        <p>Price: $${item.price}</p>
+                        <p>Quantity: ${item.quantity}</p>
                     </div>
                 `;
                 checkoutItemsContainer.appendChild(checkoutItem);
             });
 
-            document.getElementById("total-amount").textContent = `Tổng tiền: $${totalAmount}`;
+            document.getElementById("total-amount").textContent = `Total: $${totalAmount}`;
         }
 
         function completeOrder() {
             const cart = JSON.parse(localStorage.getItem("cart")) || [];
-            const itemsList = cart.map(item => `- ${item.name} (x${item.quantity}) - Giá: $${item.price}`).join("\n");
+            const itemsList = cart.map(item => `- ${item.name} (x${item.quantity}) - Price: $${item.price}`).join("\n");
 
             const orderDetails = {
                 customer_name: localStorage.getItem("customerName"),
@@ -145,19 +145,19 @@
                 customer_phone: localStorage.getItem("customerPhone"),
                 customer_address: localStorage.getItem("customerAddress"),
                 payment_method: localStorage.getItem("paymentMethod") === "momo" ? "MoMo" : 
-                                localStorage.getItem("paymentMethod") === "bank" ? "Ngân Hàng" : "Thanh Toán Tiền Mặt",
+                                localStorage.getItem("paymentMethod") === "bank" ? "Bank Transfer" : "Cash Payment",
                 total_amount: localStorage.getItem("totalAmount"),
                 items_list: itemsList
             };
 
-            // Gửi email bằng EmailJS
-            emailjs.send("service_7b9994c", "template_oy4kqoy", orderDetails) // Thay "YOUR_TEMPLATE_ID" với Template ID của bạn
+            // Send email using EmailJS
+            emailjs.send("service_7b9994c", "template_oy4kqoy", orderDetails) // Replace "YOUR_TEMPLATE_ID" with your Template ID
                 .then(function(response) {
-                    alert("Đơn hàng của bạn đã được xác nhận và email đã được gửi!");
+                    alert("Your order has been confirmed and an email has been sent!");
                     localStorage.clear();
                     window.location.href = "index.html";
                 }, function(error) {
-                    alert("Lỗi khi gửi email: " + JSON.stringify(error));
+                    alert("Error sending email: " + JSON.stringify(error));
                 });
         }
 

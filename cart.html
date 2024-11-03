@@ -114,13 +114,13 @@
     <div id="header-placeholder" style="margin-bottom: 140px;"> </div>
 
     <div class="container my-5">
-        <h2>Giỏ Hàng Của Bạn</h2>
+        <h2> Your Cart</h2>
         <div id="cart-items"></div>
-        <div class="total-amount" id="total-amount">Tổng tiền: $0</div>
-        <button class="btn btn-danger mt-4" onclick="clearCart()">Xóa Tất Cả</button>
-        <a href="index.html" class="btn btn-primary mt-4">Tiếp Tục Mua Hàng</a>
+        <div class="total-amount" id="total-amount"> Total: $0</div>
+        <button class="btn btn-danger mt-4" onclick="clearCart()">CLEAR ALL</button>
+        <a href="index.html" class="btn btn-primary mt-4"> CONTINUE SHOPPING</a>
         <div class="checkout-button">
-            <a href="checkout.html" class="btn btn-success">Thanh Toán</a>
+            <a href="checkout.html" class="btn btn-success">CHECKOUT</a>
         </div>
     </div>
 
@@ -151,7 +151,7 @@
             let totalAmount = 0;
 
             if (cart.length === 0) {
-                cartItemsContainer.innerHTML = "<p>Giỏ hàng của bạn trống.</p>";
+                cartItemsContainer.innerHTML = "<p> Your cart is empty.</p>";
                 totalAmountContainer.textContent = "Tổng tiền: $0";
                 return;
             }

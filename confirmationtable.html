@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xác Nhận Đặt Bàn</title>
+    <title>Reservation Confirmation</title>
     <link href="logo/logo-bor.png" rel="icon" />
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <style>
@@ -26,52 +26,52 @@
     </style>
 </head>
 <body>
-    <!-- Placeholder cho Header -->
+    <!-- Placeholder for Header -->
     <div id="header-placeholder" style="margin-bottom: 140px;"></div>
 
     <div class="container my-5">
-        <h2>Xác Nhận Đặt Bàn</h2>
+        <h2>Reservation Confirmation</h2>
         
         <div id="reservation-info"></div>
         
         <!-- QR Code Section -->
         <div class="qr-code">
-            <h5>Quét mã QR để thanh toán</h5>
+            <h5>Scan the QR code to pay</h5>
             <img src="https://th.bing.com/th/id/OIP.V_mHor9anWk1oXTi6rNoJAHaHa?w=170&h=180&c=7&r=0&o=5&dpr=1.6&pid=1.7" alt="QR Code">
         </div>
 
-        <button class="btn btn-primary mt-4" onclick="confirmReservation()">Xác Nhận Đặt Bàn</button>
+        <button class="btn btn-primary mt-4" onclick="confirmReservation()">Confirm Reservation</button>
     </div>
 
-    <!-- Placeholder cho Footer -->
+    <!-- Placeholder for Footer -->
     <div id="footer-placeholder"></div>
 
     <!-- EmailJS Library -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script>
         (function(){
-            emailjs.init("shwX2lObsufT0coUX"); // Thay "YOUR_PUBLIC_KEY_HERE" bằng Public Key từ EmailJS
+            emailjs.init("shwX2lObsufT0coUX"); // Replace with your EmailJS Public Key
         })();
     </script>
 
-    <!-- JavaScript để tải Header và Footer từ các tệp riêng -->
+    <!-- JavaScript to load Header and Footer from separate files -->
     <script>
         fetch("navbar.html")
             .then(response => response.text())
             .then(data => {
                 document.getElementById("header-placeholder").innerHTML = data;
             })
-            .catch(error => console.error("Lỗi khi tải header:", error));
+            .catch(error => console.error("Error loading header:", error));
 
         fetch("footer.html")
             .then(response => response.text())
             .then(data => {
                 document.getElementById("footer-placeholder").innerHTML = data;
             })
-            .catch(error => console.error("Lỗi khi tải footer:", error));
+            .catch(error => console.error("Error loading footer:", error));
     </script>
 
-    <!-- JavaScript để hiển thị thông tin đặt bàn từ URL và gửi email -->
+    <!-- JavaScript to display reservation details from URL and send email -->
     <script>
         function getReservationInfo() {
             const params = new URLSearchParams(window.location.search);
@@ -81,17 +81,17 @@
             const datetime = params.get("datetime");
             const noOfPeople = params.get("noOfPeople");
             const tableType = params.get("tableType"); 
-            const message = params.get("message") || "Không có yêu cầu đặc biệt.";
+            const message = params.get("message") || "No special requests.";
 
             const infoHtml = `
-                <h4>Thông tin đặt bàn của bạn:</h4>
-                <p><strong>Tên:</strong> ${name}</p>
+                <h4>Your reservation details:</h4>
+                <p><strong>Name:</strong> ${name}</p>
                 <p><strong>Email:</strong> ${email}</p>
-                <p><strong>Số điện thoại:</strong> ${phone}</p>
-                <p><strong>Thời gian:</strong> ${datetime}</p>
-                <p><strong>Số lượng:</strong> ${noOfPeople}</p>
-                <p><strong>Loại bàn:</strong> ${tableType}</p>
-                <p><strong>Yêu cầu đặc biệt:</strong> ${message}</p>
+                <p><strong>Phone Number:</strong> ${phone}</p>
+                <p><strong>Date & Time:</strong> ${datetime}</p>
+                <p><strong>Number of People:</strong> ${noOfPeople}</p>
+                <p><strong>Table Type:</strong> ${tableType}</p>
+                <p><strong>Special Requests:</strong> ${message}</p>
             `;
 
             document.getElementById("reservation-info").innerHTML = infoHtml;
@@ -106,24 +106,24 @@
                 reservation_datetime: params.get("datetime"),
                 no_of_people: params.get("noOfPeople"),
                 table_type: params.get("tableType"),
-                special_requests: params.get("message") || "Không có yêu cầu đặc biệt."
+                special_requests: params.get("message") || "No special requests."
             };
 
-            // Gửi email bằng EmailJS
+            // Send email using EmailJS
             emailjs.send("service_fdn68ld", "template_59p390n", reservationDetails)
                 .then(function(response) {
-                    alert("Đặt bàn của bạn đã được xác nhận và email đã được gửi!");
+                    alert("Your reservation has been confirmed, and an email has been sent!");
                     window.location.href = "index.html";
                 }, function(error) {
-                    alert("Lỗi khi gửi email: " + JSON.stringify(error));
+                    alert("Error sending email: " + JSON.stringify(error));
                 });
         }
 
-        // Gọi hàm khi trang được tải
+        // Call function when page loads
         window.onload = getReservationInfo;
     </script>
 
-    <!-- Thư viện JavaScript thêm (Bootstrap và jQuery) -->
+    <!-- Additional JavaScript libraries (Bootstrap and jQuery) -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>

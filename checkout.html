@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Thanh Toán</title>
+    <title>Checkout</title>
     <link rel="stylesheet" href="css/bootstrap.min.css" />
     <link href="logo/logo-bor.png" rel="icon" />
     <link rel="stylesheet" href="css/style.css" />
@@ -43,42 +43,42 @@
     <div id="header-placeholder" style="margin-bottom: 100px;"></div>
 
     <div class="container my-5">
-        <h2>Thanh Toán</h2>
+        <h2>Checkout</h2>
         <div id="checkout-items"></div>
-        <div class="total-amount" id="total-amount">Tổng tiền: $0</div>
+        <div class="total-amount" id="total-amount">Total: $0</div>
 
-        <h3 class="mt-5">Thông Tin Giao Hàng</h3>
+        <h3 class="mt-5">Shipping Information</h3>
         <div class="form-group">
-            <label for="name">Tên:</label>
-            <input type="text" id="name" class="form-control" placeholder="Nhập tên của bạn">
+            <label for="name">Name:</label>
+            <input type="text" id="name" class="form-control" placeholder="Enter your name">
         </div>
         <div class="form-group mt-3">
-            <label for="phone">Số Điện Thoại:</label>
-            <input type="tel" id="phone" class="form-control" placeholder="Nhập số điện thoại">
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" class="form-control" placeholder="Enter your phone number">
         </div>
         <div class="form-group mt-3">
             <label for="email">Email:</label>
-            <input type="email" id="email" class="form-control" placeholder="Nhập email của bạn">
+            <input type="email" id="email" class="form-control" placeholder="Enter your email">
         </div>
         <div class="form-group mt-3">
-            <label for="address">Địa Chỉ:</label>
-            <textarea id="address" class="form-control" rows="3" placeholder="Nhập địa chỉ giao hàng"></textarea>
+            <label for="address">Address:</label>
+            <textarea id="address" class="form-control" rows="3" placeholder="Enter your shipping address"></textarea>
         </div>
 
-        <h3 class="mt-5">Chọn Phương Thức Thanh Toán</h3>
+        <h3 class="mt-5">Choose Payment Method</h3>
         <div class="payment-option">
             <div>
                 <input type="radio" name="payment" id="cash" value="cash">
-                <label for="cash">Thanh Toán Tiền Mặt</label>
+                <label for="cash">Cash Payment</label>
             </div>
-            <img src="https://bizweb.dktcdn.net/thumb/large/100/418/975/articles/ngan-hang-thanh-toan.jpg?v=1614153421567" alt="Thanh Toán Tiền Mặt" />
+            <img src="https://bizweb.dktcdn.net/thumb/large/100/418/975/articles/ngan-hang-thanh-toan.jpg?v=1614153421567" alt="Cash Payment" />
         </div>
         <div class="payment-option">
             <div>
                 <input type="radio" name="payment" id="bank" value="bank">
-                <label for="bank">Ngân Hàng</label>
+                <label for="bank">Bank Transfer</label>
             </div>
-            <img src="https://th.bing.com/th/id/OIP.ta7YaX99ei1N1Rm8gNyrTAHaEK?w=325&h=182&c=7&r=0&o=5&dpr=1.6&pid=1.7" alt="Ngân Hàng" />
+            <img src="https://th.bing.com/th/id/OIP.ta7YaX99ei1N1Rm8gNyrTAHaEK?w=325&h=182&c=7&r=0&o=5&dpr=1.6&pid=1.7" alt="Bank Transfer" />
         </div>
         <div class="payment-option">
             <div>
@@ -88,7 +88,7 @@
             <img src="https://play-lh.googleusercontent.com/dQbjuW6Jrwzavx7UCwvGzA_sleZe3-Km1KISpMLGVf1Be5N6hN6-tdKxE5RDQvOiGRg" alt="MoMo" />
         </div>
 
-        <button class="btn btn-primary mt-4" onclick="completeOrder()">Hoàn Tất Thanh Toán</button>
+        <button class="btn btn-primary mt-4" onclick="completeOrder()">Complete Payment</button>
     </div>
 
     <!-- Placeholder for Footer -->
@@ -120,8 +120,8 @@
             let totalAmount = 0;
 
             if (cart.length === 0) {
-                checkoutItemsContainer.innerHTML = "<p>Giỏ hàng của bạn trống.</p>";
-                totalAmountContainer.textContent = "Tổng tiền: $0";
+                checkoutItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
+                totalAmountContainer.textContent = "Total: $0";
                 return;
             }
 
@@ -134,14 +134,14 @@
                     <img src="${item.image}" alt="${item.name}">
                     <div>
                         <h5>${item.name}</h5>
-                        <p>Giá: $${item.price}</p>
-                        <p>Số lượng: ${item.quantity}</p>
+                        <p>Price: $${item.price}</p>
+                        <p>Quantity: ${item.quantity}</p>
                     </div>
                 `;
                 checkoutItemsContainer.appendChild(checkoutItem);
             });
 
-            totalAmountContainer.textContent = `Tổng tiền: $${totalAmount.toFixed(2)}`;
+            totalAmountContainer.textContent = `Total: $${totalAmount.toFixed(2)}`;
             localStorage.setItem("totalAmount", totalAmount.toFixed(2)); // Store total amount
         }
 
@@ -153,12 +153,12 @@
             const selectedPayment = document.querySelector('input[name="payment"]:checked');
 
             if (!name || !phone || !email || !address) {
-                alert("Vui lòng điền đầy đủ thông tin giao hàng.");
+                alert("Please fill in all the shipping information.");
                 return;
             }
 
             if (!selectedPayment) {
-                alert("Vui lòng chọn phương thức thanh toán.");
+                alert("Please select a payment method.");
                 return;
             }
 
